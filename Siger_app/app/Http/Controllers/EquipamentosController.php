@@ -41,7 +41,12 @@ class EquipamentosController extends Controller
                 'descricao' => 'required',
                 'etiqueta'  => 'required',
             ]);
+        Equipamentos::create($request->all());
 
+   
+
+            return redirect()->route('equipamentos.index')
+                     ->with('success','Equipamento registrado com sucesso');
 
     }
 
@@ -64,7 +69,7 @@ class EquipamentosController extends Controller
      */
     public function edit(Equipamentos $equipamentos)
     {
-        //
+        return view ('equipamentos.edit',compact('equipamentos'));
     }
 
     /**
@@ -76,9 +81,15 @@ class EquipamentosController extends Controller
      */
     public function update(Request $request, Equipamentos $equipamentos)
     {
-        //
-    }
-
+        $request->validator(
+            [
+                'descricao' => 'required',
+                'etiqueta'  => 'required',    
+            ]);
+        Equipamentos::update($request->all());
+                        return redirect()->route('equipamentos.index')
+                   ->with('success','Equipamento atualizado com sucesso');
+     }
     /**
      * Remove the specified resource from storage.
      *
@@ -87,6 +98,9 @@ class EquipamentosController extends Controller
      */
     public function destroy(Equipamentos $equipamentos)
     {
-        //
+        $equipamentos->delete(); 
+
+        return redirect()->route('equipamentos.index')
+                        ->with('success','Equipamento excluido com sucesso');
     }
 }
